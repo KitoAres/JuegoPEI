@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruta hacia el PEI - Juego Digital</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wood-bg"></div>
+
+  <main class="app">
+    <section class="screen setup-screen" id="setupScreen">
+      <div class="setup-card">
+        <div class="fun-stickers"><span>📚</span><span>🧠</span><span>😵‍💫</span><span>🏆</span></div>
+        <div class="logo">🎲</div>
+        <h1>Ruta hacia el <span>PEI</span></h1>
+        <p class="lead">
+          Juego de mesa digital sobre el Proyecto Educativo Institucional. Con risas, retos y mini caos académico.
+          Primero elige a los valientes jugadores y luego empieza la aventura del PEI.
+        </p>
+
+        <div class="setup-grid">
+          <label class="field">
+            <strong>¿Cuántos jugadores participarán?</strong>
+            <select id="playerCount">
+              <option value="2">2 jugadores</option>
+              <option value="3">3 jugadores</option>
+              <option value="4">4 jugadores</option>
+              <option value="5">5 jugadores</option>
+              <option value="6">6 jugadores</option>
+            </select>
+          </label>
+
+          <div class="names-box" id="namesBox"></div>
+        </div>
+
+        <button class="btn primary big" id="startGameBtn">🚀 🚀 Entrar al caos educativo</button>
+      </div>
+    </section>
+
+    <section class="screen game-screen hidden" id="gameScreen">
+      <header class="game-header">
+        <div class="title-area">
+          <div class="round-logo">🏫</div>
+          <div>
+            <h2>Ruta hacia el <span>PEI</span></h2>
+            <p>Avanza por el camino, sobrevive a las preguntas y llega a la Institución Exitosa.</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn ghost" id="fullscreenBtn">⛶ Pantalla completa</button>
+          <button class="btn danger" id="newGameBtn">🔄 Nueva partida</button>
+        </div>
+      </header>
+
+      <section class="game-layout">
+        <section class="board-panel">
+          <div class="board-title">
+            <div class="start-pill">INICIO ➜</div>
+            <div class="road-label">Camino del PEI: modo supervivencia académica</div>
+            <div class="goal-pill">🏆 META</div>
+          </div>
+
+          <div class="board" id="board">
+            <svg class="road-svg" viewBox="0 0 1120 560" preserveAspectRatio="none" aria-hidden="true">
+              <path class="road-shadow" d="M80 88 C220 42 390 38 530 88 C690 146 850 142 1010 92 C1065 75 1095 122 1054 166 C996 230 830 222 680 188 C500 146 322 154 172 214 C86 248 78 340 164 368 C308 416 512 362 690 352 C842 343 1000 382 1028 462 C1052 532 908 540 792 500 C650 452 498 440 350 486 C248 518 146 510 94 458" />
+              <path class="road" d="M80 88 C220 42 390 38 530 88 C690 146 850 142 1010 92 C1065 75 1095 122 1054 166 C996 230 830 222 680 188 C500 146 322 154 172 214 C86 248 78 340 164 368 C308 416 512 362 690 352 C842 343 1000 382 1028 462 C1052 532 908 540 792 500 C650 452 498 440 350 486 C248 518 146 510 94 458" />
+              <path id="mainRoadPath" class="road-dash" d="M80 88 C220 42 390 38 530 88 C690 146 850 142 1010 92 C1065 75 1095 122 1054 166 C996 230 830 222 680 188 C500 146 322 154 172 214 C86 248 78 340 164 368 C308 416 512 362 690 352 C842 343 1000 382 1028 462 C1052 532 908 540 792 500 C650 452 498 440 350 486 C248 518 146 510 94 458" />
+            </svg>
+            <div id="cellsLayer"></div>
+            <div id="pawnsLayer"></div>
+          </div>
+        </section>
+
+        <aside class="control-panel">
+          <div class="turn-card">
+            <div class="turn-label">Víctima del turno</div>
+            <div class="current-player" id="currentPlayer">Jugador</div>
+            <div class="phase" id="phaseText">Lanza el dado para avanzar.</div>
+
+            <div class="dice-row">
+              <button class="dice" id="rollBtn" aria-label="Lanzar dado">
+                <span id="diceValue">🎲</span>
+              </button>
+              <div class="dice-info">
+                <strong id="diceResult">Dado listo</strong>
+                <p id="diceHelp">Solo la víctima del turno puede tentar al dado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-card" id="taskCard">
+            <div class="task-type" id="taskType">ESPERANDO</div>
+            <h3 id="taskTitle">Casilla inicial</h3>
+            <p id="taskText">Cuando lances el dado aparecerá tu destino académico. Sin llorar. Bueno, poquito sí.</p>
+            <div class="answer hidden" id="answerText"></div>
+
+            <div class="task-actions">
+              <button class="btn soft" id="showAnswerBtn">💡 Pedir auxilio</button>
+              <button class="btn success" id="doneBtn" disabled>✅ Ya sobreviví</button>
+            </div>
+          </div>
+
+          <div class="players-card">
+            <h3>Equipo sobreviviente</h3>
+            <div id="playersList" class="players-list"></div>
+          </div>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="winnerModal">
+    <div class="modal-card">
+      <div class="trophy">🏆</div>
+      <h2>¡Institución Exitosa! 🎉</h2>
+      <p id="winnerMessage">Un héroe académico logró sobrevivir al PEI.</p>
+      <button class="btn primary big" id="finishBtn">Otra ronda de sufrimiento bonito</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>
